@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pegawai - Sistem Absensi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <div class="header-title">
+                <h1>Dashboard Pegawai</h1>
+            </div>
+            <div class="user-info">
+                <span id="user-name"></span>
+                <button id="logout-btn" class="btn btn-danger">Logout</button>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-target="profile">Profil</li>
+                    <li class="nav-item" data-target="attendance">Absensi</li>
+                    <li class="nav-item" data-target="leaves">Pengajuan Izin</li>
+                </ul>
+            </div>
+
+            <div class="main-content">
+                <!-- Profile Section -->
+                <div id="profile" class="content-section active">
+                    <h2>Profil Pegawai</h2>
+                    <div class="profile-info">
+                        <div class="info-group">
+                            <label id="id-label">ID:</label>
+                            <span id="employee-id"></span>
+                        </div>
+                        <div class="info-group">
+                            <label>Nama:</label>
+                            <span id="employee-name"></span>
+                        </div>
+                        <div class="info-group">
+                            <label>Role:</label>
+                            <span id="employee-role"></span>
+                        </div>
+                    </div>
+                    <div class="change-password">
+                        <h3>Ubah Password</h3>
+                        <form id="password-form">
+                            <div class="form-group">
+                                <label for="current-password">Password Saat Ini</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Password Baru</label>
+                                <input type="password" id="new-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Konfirmasi Password</label>
+                                <input type="password" id="confirm-password" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Ubah Password</button>
+                            </div>
+                            <div class="form-group">
+                                <div id="password-error" class="error-message"></div>
+                                <div id="password-success" class="success-message"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Attendance Section -->
+                <div id="attendance" class="content-section">
+                    <h2>Absensi Harian</h2>
+                    <div class="attendance-status">
+                        <div class="status-card">
+                            <h3>Status Hari Ini</h3>
+                            <div class="status-info">
+                                <div class="info-row">
+                                    <span class="label">Tanggal:</span>
+                                    <span id="current-date" class="value"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Status Datang:</span>
+                                    <span id="in-status" class="value">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Waktu Datang:</span>
+                                    <span id="in-time" class="value">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Status Pulang:</span>
+                                    <span id="out-status" class="value">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Waktu Pulang:</span>
+                                    <span id="out-time" class="value">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="attendance-actions">
+                        <button id="check-in-btn" class="btn btn-primary">Absen Datang</button>
+                        <button id="check-out-btn" class="btn btn-secondary" disabled>Absen Pulang</button>
+                    </div>
+                    <div id="attendance-message" class="message"></div>
+                    <div class="attendance-history">
+                        <h3>Riwayat Absensi</h3>
+                        <div class="table-container">
+                            <table id="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Waktu Datang</th>
+                                        <th>Status Datang</th>
+                                        <th>Waktu Pulang</th>
+                                        <th>Status Pulang</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendance-table-body">
+                                    <!-- Data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaves Section -->
+                <div id="leaves" class="content-section">
+                    <h2>Pengajuan Izin</h2>
+                    <div class="leave-form">
+                        <h3>Form Pengajuan Izin</h3>
+                        <form id="leave-form">
+                            <div class="form-group">
+                                <label>Jenis Izin</label>
+                                <div class="radio-group">
+                                    <label>
+                                        <input type="radio" name="leave-type" value="izin sakit" checked>
+                                        Izin Sakit
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="leave-type" value="izin dinas keluar">
+                                        Izin Dinas Keluar
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="leave-start">Tanggal Mulai</label>
+                                <input type="date" id="leave-start" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leave-end">Tanggal Selesai</label>
+                                <input type="date" id="leave-end" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Ajukan Izin</button>
+                            </div>
+                            <div class="form-group">
+                                <div id="leave-message" class="message"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="leave-history">
+                        <h3>Riwayat Izin</h3>
+                        <div class="table-container">
+                            <table id="leave-table">
+                                <thead>
+                                    <tr>
+                                        <th>Jenis Izin</th>
+                                        <th>Tanggal Mulai</th>
+                                        <th>Tanggal Selesai</th>
+                                        <th>Status</th>
+                                        <th>Tanggal Pengajuan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leave-table-body">
+                                    <!-- Data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

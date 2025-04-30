@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="dashboard">
+    <header class="header">
+      <h1>Dashboard Admin</h1>
+      <div>
+        <span id="admin-name"></span>
+        <button id="logout-btn" class="btn btn-danger">Logout</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <aside class="sidebar">
+        <ul class="nav-menu">
+          <li class="nav-item active" data-target="employees">Data Pegawai</li>
+          <li class="nav-item" data-target="attendance">Rekap Presensi</li>
+          <li class="nav-item" data-target="leaves">Verifikasi Izin</li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+        <!-- Data Pegawai -->
+        <section id="employees" class="content-section active">
+          <div class="section-header">
+            <h2>Data Pegawai</h2>
+            <button id="add-employee-btn" class="btn btn-primary">Tambah Pegawai</button>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nama</th>
+                  <th>Jenis</th>
+                  <th>Role</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="employees-table-body">
+                <!-- data akan dimuat via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Rekap Presensi -->
+        <section id="attendance" class="content-section">
+          <div class="section-header">
+            <h2>Rekap Presensi</h2>
+            <div>
+              <select id="attendance-month">
+                <option value="">Semua Bulan</option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+              </select>
+              <select id="attendance-role">
+                <option value="">Semua Role</option>
+                <option value="Guru">Guru</option>
+                <option value="Tenaga Pendidik">Tenaga Pendidik</option>
+                <option value="Pekerja">Pekerja</option>
+              </select>
+              <button id="attendance-filter-btn" class="btn btn-secondary">Filter</button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nama</th>
+                  <th>Tanggal</th>
+                  <th>Datang</th>
+                  <th>Status</th>
+                  <th>Pulang</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="attendance-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Verifikasi Izin -->
+        <section id="leaves" class="content-section">
+          <div class="section-header">
+            <h2>Verifikasi Izin</h2>
+            <div>
+              <select id="leave-month">
+                <option value="">Semua Bulan</option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+              </select>
+              <select id="leave-role">
+                <option value="">Semua Role</option>
+                <option value="Guru">Guru</option>
+                <option value="Tenaga Pendidik">Tenaga Pendidik</option>
+                <option value="Pekerja">Pekerja</option>
+              </select>
+              <button id="leave-filter-btn" class="btn btn-secondary">Filter</button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nama</th>
+                  <th>Kategori</th>
+                  <th>Mulai</th>
+                  <th>Selesai</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="leave-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Modal Tambah/Edit Pegawai -->
+    <div id="employee-form-container" class="modal">
+      <div class="modal-content">
+        <span class="close" id="cancel-employee-btn">&times;</span>
+        <h2>Form Pegawai</h2>
+        <form id="employee-form">
+          <div class="form-group">
+            <label for="employee-id">ID Pegawai</label>
+            <input type="text" id="employee-id" required />
+          </div>
+
+          <div class="form-group">
+            <label for="employee-nama">Nama</label>
+            <input type="text" id="employee-nama" required />
+          </div>
+
+          <div class="form-group">
+            <label for="employee-jenis">Jenis Pegawai</label>
+            <select id="employee-jenis" required>
+              <option value="ASN">ASN</option>
+              <option value="Non-ASN">Non-ASN</option>
+              <option value="Pekerja">Pekerja</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="employee-role">Role</label>
+            <select id="employee-role" required>
+              <option value="Guru">Guru</option>
+              <option value="Tenaga Pendidik">Tenaga Pendidik</option>
+              <option value="Pekerja">Pekerja</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="employee-password">Password</label>
+            <input type="password" id="employee-password" required />
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="button" class="btn btn-secondary" id="cancel-employee-btn">Batal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
