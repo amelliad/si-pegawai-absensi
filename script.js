@@ -1,4 +1,4 @@
-// script.js – versi full update dan perbaikan
+// script.js – perbaikan masalah login type
 
 document.addEventListener("DOMContentLoaded", function () {
   const page = window.location.pathname.split("/").pop();
@@ -18,44 +18,78 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function initLogin() {
+  // Inisialisasi tipe login dari URL atau default ke "pegawai"
   const urlParams = new URLSearchParams(window.location.search);
-  const loginType = urlParams.get("type");
+  let loginType = urlParams.get("type") || "pegawai";
   const loginTitle = document.getElementById("login-title");
   const loginForm = document.getElementById("login-form");
   const errorMessage = document.getElementById("error-message");
   const adminButton = document.getElementById("admin-toggle");
   const pegawaiButton = document.getElementById("pegawai-toggle");
+  const container = document.getElementById("container");
 
-  loginTitle.textContent =
-    loginType === "admin" ? "Login Admin" : "Login Pegawai";
+  // Set judul login sesuai tipe dari URL
+  updateLoginUI();
 
+  // Event listeners untuk tombol toggle
   adminButton.addEventListener("click", function () {
+    container.classList.add("active");
+    loginType = "admin";
+    updateLoginUI();
     updateLoginType("admin");
   });
 
   pegawaiButton.addEventListener("click", function () {
+    container.classList.remove("active");
+    loginType = "pegawai";
+    updateLoginUI();
     updateLoginType("pegawai");
   });
 
-  function updateLoginType(type) {
-    const currentUrl = new URL(window.location);
-    currentUrl.searchParams.set("type", type); // Mengubah parameter type di URL
-    window.history.pushState({}, "", currentUrl); // Memperbarui URL di browser tanpa reload
-    loginTitle.textContent = type === "admin" ? "Login Admin" : "Login Pegawai"; // Mengubah judul form
+  // Function untuk memperbarui tampilan UI berdasarkan tipe login
+  function updateLoginUI() {
+    loginTitle.textContent =
+      loginType === "admin" ? "Login Admin" : "Login Pegawai";
+
+    // Update tampilan container jika perlu
+    if (loginType === "admin" && !container.classList.contains("active")) {
+      container.classList.add("active");
+    } else if (
+      loginType === "pegawai" &&
+      container.classList.contains("active")
+    ) {
+      container.classList.remove("active");
+    }
   }
 
+  // Function untuk mengupdate URL dengan tipe login
+  function updateLoginType(type) {
+    const currentUrl = new URL(window.location);
+    currentUrl.searchParams.set("type", type);
+    window.history.pushState({}, "", currentUrl);
+  }
+
+  // Event listener untuk submit form
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
+
+    // Tentukan endpoint berdasarkan tipe login aktif
     const endpoint =
       loginType === "admin" ? "/api/login/admin" : "/api/login/pegawai";
+
+    console.log("Login attempt as:", loginType, "to endpoint:", endpoint); // Debug
 
     fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({
+        username,
+        password,
+        type: loginType, // Tambahkan tipe login ke body request
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -70,6 +104,13 @@ function initLogin() {
         errorMessage.textContent = "Terjadi kesalahan. Silakan coba lagi.";
       });
   });
+
+  // Inisialisasi tampilan sesuai URL saat halaman pertama kali dimuat
+  if (loginType === "admin") {
+    container.classList.add("active");
+  } else {
+    container.classList.remove("active");
+  }
 }
 
 function initAdminDashboard() {
@@ -469,22 +510,5 @@ function initEmployeeDashboard() {
   loadLeaveHistory();
 }
 
-const container = document.getElementById("container");
-const adminBtn = document.getElementById("admin-toggle");
-const pegawaiBtn = document.getElementById("pegawai-toggle");
-
-let loginType = ""; // variabel untuk menyimpan tipe login
-
-adminBtn.addEventListener("click", () => {
-  container.classList.add("active");
-  loginType = "admin";
-  console.log("Login sebagai:", loginType); // hanya untuk debug
-});
-
-pegawaiBtn.addEventListener("click", () => {
-  container.classList.remove("active");
-  loginType = "pegawai";
-  console.log("Login sebagai:", loginType); // hanya untuk debug
-});
-
-document.addEventListener("DOMContentLoaded", initLogin);
+// Hapus event listener duplicate di sini
+// document.addEventListener("DOMContentLoaded", initLogin);
